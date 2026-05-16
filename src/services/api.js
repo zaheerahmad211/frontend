@@ -1,10 +1,15 @@
 import axios from 'axios';
 
-const API = import.meta.env.VITE_API_URL;
+// ✅ SAFE BACKEND URL (fixes undefined issue)
+const API = import.meta.env.VITE_API_URL || "https://backend-rho-ten-38.vercel.app";
 
+// External APIs
 const DUMMY_BASE_URL = 'https://dummyjson.com/products';
 const FAKE_STORE_URL = 'https://fakestoreapi.com/products';
 
+// ========================
+// FETCH ALL PRODUCTS
+// ========================
 export const fetchAllProducts = async () => {
     try {
         const safeGet = (url, isDummyJson = true) =>
@@ -13,7 +18,6 @@ export const fetchAllProducts = async () => {
                 return { data: isDummyJson ? { products: [] } : [] };
             });
 
-        // Fetch original + new categories
         const [
             fakeStoreRes,
             furnitureRes,
@@ -50,23 +54,21 @@ export const fetchAllProducts = async () => {
 
         const fakeStoreProducts = fakeStoreRes.data;
 
-        // Helper to map DummyJSON to app structure
-        const normalize = (products, categoryOverride) => products.map(p => ({
-            id: p.id + 1000,
-            title: p.title,
-            price: p.price,
-            category: categoryOverride || p.category,
-            image: p.thumbnail || (p.images && p.images[0]) || "https://placehold.co/600x400?text=No+Image",
-            rating: { rate: p.rating, count: 0 },
-            description: p.description
-        }));
+        const normalize = (products, categoryOverride) =>
+            products.map(p => ({
+                id: p.id + 1000,
+                title: p.title,
+                price: p.price,
+                category: categoryOverride || p.category,
+                image: p.thumbnail || (p.images && p.images[0]) || "https://placehold.co/600x400?text=No+Image",
+                rating: { rate: p.rating, count: 0 },
+                description: p.description
+            }));
 
-        // Normalize New Data
         const furniture = normalize(furnitureRes.data.products, 'furniture');
         const sports = normalize(sportsRes.data.products, 'sports');
         const home = normalize(homeRes.data.products);
 
-        // Map new categories to existing ones
         const mensClothing = [
             ...normalize(mensShirtsRes.data.products, "men's clothing"),
             ...normalize(mensShoesRes.data.products, "men's clothing")
@@ -87,20 +89,20 @@ export const fetchAllProducts = async () => {
             ...normalize(topsRes.data.products, "women's clothing")
         ];
 
-        // Normalize Local Data
         const localProducts = localRes.data.map(p => ({
             id: p._id,
             title: p.name,
             price: p.price,
             category: p.category,
-            image: p.image.startsWith('/uploads/') ? `${API}${p.image}` : p.image,
+            image: p.image.startsWith('/uploads/')
+                ? `${API}${p.image}`
+                : p.image,
             rating: { rate: 5, count: 10 },
             description: p.description,
             stock: p.stock,
             seller: p.seller
         }));
 
-        // Combine everything
         return [
             ...localProducts,
             ...fakeStoreProducts,
@@ -112,15 +114,18 @@ export const fetchAllProducts = async () => {
             ...jewelery,
             ...electronics
         ];
+
     } catch (error) {
-        console.error("Failed to fetch products from API:", error);
+        console.error("Failed to fetch products:", error);
         return [];
     }
 };
 
+// ========================
+// FETCH PRODUCT BY ID
+// ========================
 export const fetchProductById = async (id) => {
     try {
-        // If ID is a MongoDB ObjectId (24 chars hex), it's a local product
         const isMongoId = /^[0-9a-fA-F]{24}$/.test(id);
 
         if (isMongoId) {
@@ -130,7 +135,9 @@ export const fetchProductById = async (id) => {
                 title: data.name,
                 price: data.price,
                 category: data.category,
-                image: data.image.startsWith('/uploads/') ? `${API}${data.image}` : data.image,
+                image: data.image.startsWith('/uploads/')
+                    ? `${API}${data.image}`
+                    : data.image,
                 rating: { rate: 5, count: 10 },
                 description: data.description,
                 stock: data.stock,
@@ -139,12 +146,11 @@ export const fetchProductById = async (id) => {
         }
 
         const numId = Number(id);
-        // If ID > 1000, it's a DummyJSON product
+
         if (numId > 1000) {
             const realId = numId - 1000;
             const { data } = await axios.get(`${DUMMY_BASE_URL}/${realId}`);
 
-            // Normalize single product
             return {
                 id: numId,
                 title: data.title,
@@ -155,25 +161,37 @@ export const fetchProductById = async (id) => {
                 description: data.description,
                 stock: data.stock || 10
             };
-        } else {
-            // Otherwise it's FakeStoreAPI
-            const { data } = await axios.get(`${FAKE_STORE_URL}/${id}`);
-            return {
-                ...data,
-                stock: 10 // Fake API doesn't return stock
-            };
         }
+
+        const { data } = await axios.get(`${FAKE_STORE_URL}/${id}`);
+
+        return {
+            ...data,
+            stock: 10
+        };
+
     } catch (error) {
-        console.error("Error fetching product by ID:", error);
+        console.error("Error fetching product:", error);
         return null;
     }
-}
+};
 
+// ========================
+// FETCH CATEGORIES
+// ========================
 export const fetchCategories = async () => {
     try {
         const response = await axios.get(`${FAKE_STORE_URL}/categories`);
         return [...response.data, 'furniture', 'sports', 'home-decoration'];
     } catch (error) {
-        return ['electronics', 'jewelery', 'men\'s clothing', 'women\'s clothing', 'furniture', 'sports', 'home-decoration'];
+        return [
+            'electronics',
+            'jewelery',
+            "men's clothing",
+            "women's clothing",
+            'furniture',
+            'sports',
+            'home-decoration'
+        ];
     }
-}
+};
