@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
-const API = import.meta.env.VITE_API_URL;
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+
+const API = import.meta.env.VITE_API_URL;
 
 const AdminDashboard = () => {
   const { user } = useAuth();
@@ -191,11 +191,11 @@ const AdminDashboard = () => {
 
   return (
     <div className="container mx-auto py-12 px-4">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-10">
-        <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-10 text-center md:text-left gap-4">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
           Admin Dashboard
         </h1>
-        <div className="mt-4 md:mt-0 px-4 py-1 bg-blue-50 dark:bg-gray-700/50 rounded-full text-sm font-medium text-blue-600 dark:text-blue-300 border border-blue-100 dark:border-gray-600">
+        <div className="px-4 py-1 bg-blue-50 dark:bg-gray-700/50 rounded-full text-sm font-medium text-blue-600 dark:text-blue-300 border border-blue-100 dark:border-gray-600 w-full sm:w-auto text-center">
           {new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
         </div>
       </div>
@@ -228,29 +228,28 @@ const AdminDashboard = () => {
       </div>
 
       {/* Tabs */}
-      {/* Tabs */}
-      <div className="flex justify-center mb-10">
-        <div className="bg-gray-100 dark:bg-gray-800 p-1 rounded-xl inline-flex shadow-inner">
+      <div className="flex justify-center mb-10 px-2">
+        <div className="bg-gray-100 dark:bg-gray-800 p-1.5 rounded-xl flex flex-wrap justify-center gap-2 shadow-inner w-full md:w-auto">
           <button
-            className={`px-6 py-2 rounded-lg transition-all duration-200 ${activeTab === "products" ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-300 font-bold shadow-md transform scale-105" : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"}`}
+            className={`px-4 md:px-6 py-2 rounded-lg transition-all duration-200 text-sm md:text-base flex-1 md:flex-none whitespace-nowrap ${activeTab === "products" ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-300 font-bold shadow-md transform scale-105" : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"}`}
             onClick={() => setActiveTab("products")}
           >
             Products
           </button>
           <button
-            className={`px-6 py-2 rounded-lg transition-all duration-200 ${activeTab === "orders" ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-300 font-bold shadow-md transform scale-105" : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"}`}
+            className={`px-4 md:px-6 py-2 rounded-lg transition-all duration-200 text-sm md:text-base flex-1 md:flex-none whitespace-nowrap ${activeTab === "orders" ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-300 font-bold shadow-md transform scale-105" : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"}`}
             onClick={() => setActiveTab("orders")}
           >
             Orders
           </button>
           <button
-            className={`px-6 py-2 rounded-lg transition-all duration-200 ${activeTab === "users" ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-300 font-bold shadow-md transform scale-105" : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"}`}
+            className={`px-4 md:px-6 py-2 rounded-lg transition-all duration-200 text-sm md:text-base flex-1 md:flex-none whitespace-nowrap ${activeTab === "users" ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-300 font-bold shadow-md transform scale-105" : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"}`}
             onClick={() => setActiveTab("users")}
           >
             Users
           </button>
           <button
-            className={`px-6 py-2 rounded-lg transition-all duration-200 ${activeTab === "messages" ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-300 font-bold shadow-md transform scale-105" : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"}`}
+            className={`px-4 md:px-6 py-2 rounded-lg transition-all duration-200 text-sm md:text-base flex-1 md:flex-none whitespace-nowrap ${activeTab === "messages" ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-300 font-bold shadow-md transform scale-105" : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"}`}
             onClick={() => setActiveTab("messages")}
           >
             Feedback
@@ -261,18 +260,18 @@ const AdminDashboard = () => {
       {/* Products Tab */}
       {activeTab === "products" && (
         <div className="max-w-6xl mx-auto">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
             <h2 className="text-2xl font-bold">Product List</h2>
-            <button onClick={() => setFormVisible(!formVisible)} className="bg-green-600 text-white px-4 py-2 rounded">
+            <button onClick={() => setFormVisible(!formVisible)} className="bg-green-600 text-white px-4 py-2 rounded w-full sm:w-auto">
               {formVisible ? "Cancel" : "Add Product"}
             </button>
           </div>
 
           {formVisible && (
             <form onSubmit={handleSubmitProduct} className="bg-white dark:bg-gray-800 p-6 rounded shadow mb-8">
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleInputChange} className="border p-2 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
-                <input type="number" name="price" placeholder="Price" value={formData.price} onChange={handleInputChange} className="border p-2 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleInputChange} className="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
+                <input type="number" name="price" placeholder="Price" value={formData.price} onChange={handleInputChange} className="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
               </div>
               <div className="mb-4">
                 <input type="text" name="image" placeholder="Image URL" value={formData.image} onChange={handleInputChange} className="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
@@ -280,37 +279,56 @@ const AdminDashboard = () => {
               <div className="mb-4">
                 <textarea name="description" placeholder="Description" value={formData.description} onChange={handleInputChange} className="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" required></textarea>
               </div>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <input type="text" name="category" placeholder="Category" value={formData.category} onChange={handleInputChange} className="border p-2 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
-                <input type="number" name="stock" placeholder="Stock" value={formData.stock} onChange={handleInputChange} className="border p-2 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <input type="text" name="category" placeholder="Category" value={formData.category} onChange={handleInputChange} className="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
+                <input type="number" name="stock" placeholder="Stock" value={formData.stock} onChange={handleInputChange} className="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
               </div>
               <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded cursor-pointer">Submit</button>
             </form>
           )}
 
-          {/* Products Table */}
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white dark:bg-gray-800 rounded shadow text-sm text-gray-900 dark:text-gray-100">
-              <thead>
-                <tr className="bg-gray-200 dark:bg-gray-700">
-                  <th className="py-2 px-4 text-left">Image</th>
-                  <th className="py-2 px-4 text-left">Name</th>
-                  <th className="py-2 px-4 text-left">Price</th>
-                  <th className="py-2 px-4 text-left">Details</th>
-                  <th className="py-2 px-4 text-left">Actions</th>
+          {/* Products List - Mobile */}
+          <div className="grid grid-cols-1 gap-4 md:hidden">
+            {products.map((product) => (
+              <div key={product._id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 flex items-center space-x-4">
+                <img src={product.image} alt={product.name} className="w-16 h-16 object-cover rounded-lg shadow-sm" />
+                <div className="flex-1">
+                  <h3 className="font-bold text-gray-900 dark:text-white text-lg">{product.name}</h3>
+                  <div className="text-sm text-gray-600 dark:text-gray-300 font-medium">${product.price}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">Stock: {product.stock}</div>
+                </div>
+                <button onClick={() => handleDeleteProduct(product._id)} className="text-red-500 hover:text-red-700 bg-red-50 dark:bg-red-900/20 p-2 rounded-full transition-colors">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Products Table - Desktop */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="min-w-full bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden text-sm text-gray-900 dark:text-gray-100">
+              <thead className="bg-gray-100 dark:bg-gray-700/50 uppercase text-xs font-semibold text-gray-500 dark:text-gray-400">
+                <tr>
+                  <th className="py-3 px-4 text-left">Image</th>
+                  <th className="py-3 px-4 text-left">Name</th>
+                  <th className="py-3 px-4 text-left">Price</th>
+                  <th className="py-3 px-4 text-left">Details</th>
+                  <th className="py-3 px-4 text-left">Actions</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                 {products.map((product) => (
-                  <tr key={product._id} className="border-t dark:border-gray-700">
-                    <td className="py-2 px-4">
-                      <img src={product.image} alt={product.name} className="w-12 h-12 object-cover rounded" />
+                  <tr key={product._id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                    <td className="py-3 px-4">
+                      <img src={product.image} alt={product.name} className="w-12 h-12 object-cover rounded-lg shadow-sm" />
                     </td>
-                    <td className="py-2 px-4">{product.name}</td>
-                    <td className="py-2 px-4">${product.price}</td>
-                    <td className="py-2 px-4">Stock: {product.stock}</td>
-                    <td className="py-2 px-4">
-                      <button onClick={() => handleDeleteProduct(product._id)} className="text-red-600 hover:text-red-800 cursor-pointer">Delete</button>
+                    <td className="py-3 px-4 font-medium">{product.name}</td>
+                    <td className="py-3 px-4 font-bold text-gray-700 dark:text-gray-300">${product.price}</td>
+                    <td className="py-3 px-4 text-gray-500 dark:text-gray-400">Stock: {product.stock}</td>
+                    <td className="py-3 px-4">
+                      <button onClick={() => handleDeleteProduct(product._id)} className="text-red-500 hover:text-red-700 bg-red-50 dark:bg-red-900/20 p-2 rounded-full transition-colors">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -324,38 +342,94 @@ const AdminDashboard = () => {
       {activeTab === "orders" && (
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-bold mb-6">Order List</h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white dark:bg-gray-800 rounded shadow text-sm text-gray-900 dark:text-gray-100">
-              <thead>
-                <tr className="bg-gray-200 dark:bg-gray-700">
-                  <th className="py-2 px-4 text-left">Images</th>
-                  <th className="py-2 px-4 text-left">User</th>
-                  <th className="py-2 px-4 text-left">Date & Time</th>
-                  <th className="py-2 px-4 text-left">Total</th>
-                  <th className="py-2 px-4 text-left">Payment</th>
-                  <th className="py-2 px-4 text-left">Status</th>
-                  <th className="py-2 px-4 text-left">Actions</th>
+          {/* Orders List - Mobile */}
+          <div className="grid grid-cols-1 gap-4 md:hidden">
+            {orders.map((order) => (
+              <div key={order._id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 space-y-4">
+                <div className="flex justify-between items-start">
+                  <div className="flex items-center space-x-3">
+                    {order.user && order.user.profilePicture ? (
+                      <img src={order.user.profilePicture} alt={order.user.name} className="h-10 w-10 rounded-full object-cover shadow-sm" />
+                    ) : (
+                      <div className="h-10 w-10 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-300 flex items-center justify-center font-bold shadow-sm">
+                        {order.user ? order.user.name.charAt(0).toUpperCase() : "?"}
+                      </div>
+                    )}
+                    <div>
+                      <p className="font-bold text-gray-900 dark:text-white">{order.user ? order.user.name : "Unknown"}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{new Date(order.createdAt).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-gray-900 dark:text-white">${order.totalAmount}</p>
+                    <select
+                        value={order.status}
+                        onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                        className={`text-xs border p-1 rounded mt-1 shadow-sm ${order.status === "Delivered" || order.status === "Approved" ? "text-green-700 bg-green-50 border-green-200 dark:bg-green-900/30 dark:border-green-800" : order.status === "Cancelled" ? "text-red-700 bg-red-50 border-red-200 dark:bg-red-900/30 dark:border-red-800" : "text-yellow-700 bg-yellow-50 border-yellow-200 dark:bg-yellow-900/30 dark:border-yellow-800"}`}
+                      >
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                      </select>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-gray-700">
+                  <div className="flex -space-x-2 overflow-hidden">
+                    {order.items.slice(0, 3).map((item, idx) => (
+                      <img key={idx} src={item.image} alt={item.name} className="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-gray-800 object-cover" />
+                    ))}
+                    {order.items.length > 3 && (
+                      <div className="h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-xs ring-2 ring-white dark:ring-gray-800 text-gray-600 dark:text-gray-300 font-medium">
+                        +{order.items.length - 3}
+                      </div>
+                    )}
+                  </div>
+                  <button onClick={() => handleDeleteOrder(order._id)} className="text-red-500 hover:text-red-700 bg-red-50 dark:bg-red-900/20 p-2 rounded-full transition-colors">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Orders Table - Desktop */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="min-w-full bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden text-sm text-gray-900 dark:text-gray-100">
+              <thead className="bg-gray-100 dark:bg-gray-700/50 uppercase text-xs font-semibold text-gray-500 dark:text-gray-400">
+                <tr>
+                  <th className="py-3 px-4 text-left">Images</th>
+                  <th className="py-3 px-4 text-left">User</th>
+                  <th className="py-3 px-4 text-left">Date & Time</th>
+                  <th className="py-3 px-4 text-left">Total</th>
+                  <th className="py-3 px-4 text-left">Payment</th>
+                  <th className="py-3 px-4 text-left">Status</th>
+                  <th className="py-3 px-4 text-left">Actions</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                 {orders.map((order) => (
-                  <tr key={order._id} className="border-t dark:border-gray-700">
-                    <td className="py-2 px-4 flex -space-x-2 overflow-hidden">
-                      {order.items.slice(0, 3).map((item, idx) => (
-                        <img key={idx} src={item.image} alt={item.name} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" title={item.name} />
-                      ))}
-                      {order.items.length > 3 && (
-                        <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-xs ring-2 ring-white">
-                          +{order.items.length - 3}
-                        </div>
-                      )}
+                  <tr key={order._id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                    <td className="py-3 px-4">
+                      <div className="flex -space-x-2 overflow-hidden">
+                        {order.items.slice(0, 3).map((item, idx) => (
+                          <img key={idx} src={item.image} alt={item.name} className="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-gray-800 object-cover" title={item.name} />
+                        ))}
+                        {order.items.length > 3 && (
+                          <div className="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs ring-2 ring-white dark:ring-gray-800 font-medium">
+                            +{order.items.length - 3}
+                          </div>
+                        )}
+                      </div>
                     </td>
-                    <td className="py-2 px-4">
+                    <td className="py-3 px-4">
                       <div className="flex items-center space-x-3">
                         {order.user && order.user.profilePicture ? (
-                          <img src={order.user.profilePicture} alt={order.user.name} className="h-8 w-8 rounded-full object-cover shadow-sm border border-gray-200" />
+                          <img src={order.user.profilePicture} alt={order.user.name} className="h-8 w-8 rounded-full object-cover shadow-sm" />
                         ) : (
-                          <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-500">
+                          <div className="h-8 w-8 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-300 flex items-center justify-center text-xs font-bold">
                             {order.user ? order.user.name.charAt(0).toUpperCase() : "?"}
                           </div>
                         )}
@@ -364,7 +438,7 @@ const AdminDashboard = () => {
                             <p className="font-medium text-gray-900 dark:text-white">{order.user ? order.user.name : "Unknown"}</p>
                             {order.user && (
                               <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${
-                                order.user.role === 'seller' ? 'bg-orange-100 text-orange-600 border border-orange-200' : 'bg-blue-100 text-blue-600 border border-blue-200'
+                                order.user.role === 'seller' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600'
                               }`}>
                                 {order.user.role || 'user'}
                               </span>
@@ -374,12 +448,12 @@ const AdminDashboard = () => {
                         </div>
                       </div>
                     </td>
-                    <td className="py-2 px-4">
+                    <td className="py-3 px-4">
                       {new Date(order.createdAt).toLocaleDateString()} <br />
                       <span className="text-xs text-gray-500">{new Date(order.createdAt).toLocaleTimeString()}</span>
                     </td>
-                    <td className="py-2 px-4 font-bold">${order.totalAmount}</td>
-                    <td className="py-2 px-4">
+                    <td className="py-3 px-4 font-bold">${order.totalAmount}</td>
+                    <td className="py-3 px-4">
                       {order.paymentMethod ? (
                         <div>
                           <span className="font-semibold text-blue-600 dark:text-blue-400">{order.paymentMethod}</span>
@@ -392,13 +466,11 @@ const AdminDashboard = () => {
                         "N/A"
                       )}
                     </td>
-                    <td className="py-2 px-4">
+                    <td className="py-3 px-4">
                       <select
                         value={order.status}
                         onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                        className={`border p-1 rounded cursor-pointer ${(order.status === "Delivered" || order.status === "Approved") ? "text-green-600 bg-green-50" :
-                          order.status === "Cancelled" ? "text-red-600 bg-red-50" : "text-yellow-600 bg-yellow-50"
-                          }`}
+                        className={`border p-1.5 rounded-lg cursor-pointer text-xs font-medium ${order.status === "Delivered" || order.status === "Approved" ? "text-green-700 bg-green-50 border-green-200 dark:bg-green-900/30 dark:border-green-800" : order.status === "Cancelled" ? "text-red-700 bg-red-50 border-red-200 dark:bg-red-900/30 dark:border-red-800" : "text-yellow-700 bg-yellow-50 border-yellow-200 dark:bg-yellow-900/30 dark:border-yellow-800"}`}
                       >
                         <option value="Pending">Pending</option>
                         <option value="Approved">Approved</option>
@@ -408,9 +480,9 @@ const AdminDashboard = () => {
                         <option value="Cancelled">Cancelled</option>
                       </select>
                     </td>
-                    <td className="py-2 px-4">
-                      <button onClick={() => handleDeleteOrder(order._id)} className="text-red-600 hover:text-red-800 font-bold cursor-pointer">
-                        Delete
+                    <td className="py-3 px-4">
+                      <button onClick={() => handleDeleteOrder(order._id)} className="text-red-500 hover:text-red-700 bg-red-50 dark:bg-red-900/20 p-2 rounded-full transition-colors">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                       </button>
                     </td>
                   </tr>
@@ -425,14 +497,54 @@ const AdminDashboard = () => {
       {/* Users Tab */}
       {activeTab === "users" && (
         <div className="max-w-6xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white">User Management</h2>
-            <div className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-4 py-2 rounded-full font-medium shadow-sm">
+            <div className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-4 py-2 rounded-full font-medium shadow-sm w-full sm:w-auto text-center">
               Total Users: {users.length}
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700">
+          {/* Users List - Mobile */}
+          <div className="grid grid-cols-1 gap-4 md:hidden">
+            {users.map((u) => (
+              <div key={u._id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 flex flex-col space-y-4">
+                <div className="flex justify-between items-start">
+                  <div className="flex items-center space-x-3">
+                    <div className={`h-10 w-10 rounded-full flex items-center justify-center text-white font-bold shadow-sm ${u.role === 'admin' ? 'bg-gradient-to-tr from-purple-500 to-indigo-500' : 'bg-gradient-to-tr from-blue-400 to-cyan-400'}`}>
+                      {u.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div>
+                      <div className="font-bold text-gray-900 dark:text-white">{u.name}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center mt-1">
+                        <svg className="w-3 h-3 mr-1 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        {u.email}
+                      </div>
+                    </div>
+                  </div>
+                  {u._id !== user._id && (
+                    <button onClick={() => handleDeleteUser(u._id)} className="text-red-500 hover:text-red-700 bg-red-50 dark:bg-red-900/20 p-2 rounded-full transition-colors">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                  )}
+                </div>
+                <div className="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-gray-700 text-sm">
+                  <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border ${u.role === 'admin' ? 'bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800' : 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800'}`}>
+                    {u.role === 'admin' && <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.699-3.181a1 1 0 011.827 1.035l-1.74 3.258 5.604 2.241a1 1 0 01-1.248 1.874l-11.85-4.74A1 1 0 017 3V3a1 1 0 011-1h1zM3.486 4.98l.689 1.432-1.267.506a1 1 0 01-1.26-1.55l1.04-.492a1 1 0 01.798.104zM16 19h-2a1 1 0 01-1-1v-4H7v4a1 1 0 01-1 1H4a1 1 0 01-1-1V9h14v9a1 1 0 01-1 1z" /></svg>}
+                    {u.role}
+                  </span>
+                  <span className="text-gray-500 dark:text-gray-400 text-xs font-medium">Joined {new Date(u.createdAt).toLocaleDateString()}</span>
+                </div>
+              </div>
+            ))}
+            {users.length === 0 && (
+              <div className="p-8 text-center text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 rounded-xl shadow-md">
+                <p className="text-sm">No users found.</p>
+              </div>
+            )}
+          </div>
+
+          {/* Users Table - Desktop */}
+          <div className="hidden md:block bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700">
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm text-gray-700 dark:text-gray-200">
                 <thead>
@@ -505,9 +617,9 @@ const AdminDashboard = () => {
       {/* Messages Tab */}
       {activeTab === "messages" && (
         <div className="max-w-6xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Customer Feedback</h2>
-            <div className="bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 px-4 py-2 rounded-full font-medium shadow-sm">
+            <div className="bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 px-4 py-2 rounded-full font-medium shadow-sm w-full sm:w-auto text-center">
               Total Messages: {messages.length}
             </div>
           </div>
@@ -515,8 +627,8 @@ const AdminDashboard = () => {
           <div className="grid grid-cols-1 gap-6">
             {messages.map((msg) => (
               <div key={msg._id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-shadow relative group">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="flex items-center space-x-3">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
+                  <div className="flex items-center space-x-3 w-full sm:w-auto">
                     {msg.user && msg.user.profilePicture ? (
                       <img src={msg.user.profilePicture} alt={msg.name} className="h-10 w-10 rounded-full object-cover shadow-md border border-indigo-100" />
                     ) : (
@@ -538,14 +650,14 @@ const AdminDashboard = () => {
                       <p className="text-xs text-gray-500 dark:text-gray-400">{msg.email}</p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-4">
-                    <div className="text-right">
+                  <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto space-x-4">
+                    <div className="text-left sm:text-right">
                       <p className="text-xs text-gray-400 font-medium">{new Date(msg.createdAt).toLocaleDateString()}</p>
                       <p className="text-[10px] text-gray-400">{new Date(msg.createdAt).toLocaleTimeString()}</p>
                     </div>
                     <button
                       onClick={() => handleDeleteMessage(msg._id)}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-700 p-2 rounded-full bg-red-50 dark:bg-red-900/20"
+                      className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-700 p-2 rounded-full bg-red-50 dark:bg-red-900/20"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                     </button>
